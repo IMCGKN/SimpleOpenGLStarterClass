@@ -2,46 +2,46 @@
 Simple starter class for games, app and etc. written in C++ and OpenGL! This file contains 1200 lines of code.
 This header depends on SDL2, GLAD, GLM and STB_IMAGE. You must install/link these libraries.
 
-Documentation:
-This file containes
-- **Window** class (Written with help of SDL2)
-- **Shader** class
-- **VertexArrayObject**, **VertexBufferObject** and **ElementBufferObject** classes
-- **Texture** class
-- **Renderable** class
-- **GameObject** class
+# Documentation:
+* This file containes
+	- **Window** class (Written with help of SDL2)
+	- **Shader** class
+	- **VertexArrayObject**, **VertexBufferObject** and **ElementBufferObject** classes
+	- **Texture** class
+	- **Renderable** class
+	- **GameObject** class
 
-## **Window**:
+## **Window**
 Window creation and management with SDL2 + OpenGL context.
 Input handling: keyboard, mouse, scroll wheel, relative mouse.
 
-## **Shader**:
+## **Shader**
 Shader compilation and uniform handling.
 
-## **VertexArrayObject**:
+## **VertexArrayObject**
 This class stores the mapping of vertex attributes to buffer objects.
 Use this class to quickly switch between different vertex layouts and buffers.
 
-## **VertexBufferObject**:
+## **VertexBufferObject**
 This class stores vertex data (position, color, normal, UV) on the GPU.
 Works in conjunction with **VertexArrayObject** to provide data to shaders.
 
-## **VertexArrayObject**:
+## **VertexArrayObject**
 This class stores indices that tell OpenGL in which order to draw vertices.
 Reduces duplication when multiple primitives share vertices.
 
-## **Texture**:
+## **Texture**
 this class loads textures with STB_IMAGE, including flip and filtering options.
 
-## **Renderable**:
+## **Renderable**
 This class stores vertex data, optional indices, and manages the **Buffers** and
  * **VertexArrayObject** needed to draw objects in OpenGL.
 
-## **GameObject**:
+## **GameObject**
 GameObject simplifies rendering by storing position, scale, rotation (Transform), 
  * geometry (**Renderable**), and a **Texture**. Can render itself with a **Shader**.
 
-## DEMO:
+## DEMO
 
 ```
 #define STB_IMAGE_IMPLEMENTATION
