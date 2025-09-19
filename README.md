@@ -1,5 +1,5 @@
 # SimpleOpenGLStarterClass
-Simple starter class for games, app and etc. written in C++ and OpenGL! This file contains 1200 lines of code.
+Simple starter class for games, apps and etc. written in C++ and OpenGL! This file contains 1200 lines of code.
 This header depends on SDL2, GLAD, GLM and STB_IMAGE. You must install/link these libraries.
 
 # Documentation:
