@@ -35,11 +35,11 @@ this class loads textures with STB_IMAGE, including flip and filtering options.
 
 ## **Renderable**
 This class stores vertex data, optional indices, and manages the **Buffers** and
- * **VertexArrayObject** needed to draw objects in OpenGL.
+**VertexArrayObject** needed to draw objects in OpenGL.
 
 ## **GameObject**
 GameObject simplifies rendering by storing position, scale, rotation (Transform), 
- * geometry (**Renderable**), and a **Texture**. Can render itself with a **Shader**.
+geometry (**Renderable**), and a **Texture**. Can render itself with a **Shader**.
 
 ## DEMO
 
