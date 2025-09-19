@@ -3,7 +3,7 @@ Simple starter class for games, app and etc. written in C++ and OpenGL!
 
 # DEMO:
 /
-`#define STB_IMAGE_IMPLEMENTATION
+```#define STB_IMAGE_IMPLEMENTATION
 #include "imcgknEngine.hpp"
 
 using namespace imcgkn;
