@@ -1197,4 +1197,135 @@ namespace imcgkn
             shader->Unuse();
         }
     };
+
+    class OrthoCamera
+    {
+    private:
+        glm::vec2 m_Position = glm::vec2();
+
+        float m_MoveSpeed = 0.0f;
+
+    public:
+        OrthoCamera(const glm::vec2& position, float moveSpeed = 50.0f)
+            : m_Position(position), m_MoveSpeed(moveSpeed)
+        {
+        }
+
+        ~OrthoCamera()
+        {
+        }
+
+        void Update(Window& window)
+        {
+            window.SetRelativeMouseMode(false);
+            if (window.CheckKeyDown(SDL_SCANCODE_W))
+                m_Position.y += m_MoveSpeed * window.GetDeltaTime();
+            if (window.CheckKeyDown(SDL_SCANCODE_S))
+                m_Position.y -= m_MoveSpeed * window.GetDeltaTime();
+            if (window.CheckKeyDown(SDL_SCANCODE_A))
+                m_Position.x -= m_MoveSpeed * window.GetDeltaTime();
+            if (window.CheckKeyDown(SDL_SCANCODE_D))
+                m_Position.x += m_MoveSpeed * window.GetDeltaTime();
+        }
+
+        glm::mat4 GetProjectionViewMatrix(float windowWidth, float windowHeight, float near = -1.0f, float far = 1.0f) const
+        {
+            float aspectRatio = windowWidth / windowHeight;
+            float worldHeight = 10.0f;
+            float worldWidth = worldHeight * aspectRatio;
+            glm::mat4 proj = glm::mat4(1.0f);
+            glm::mat4 view = glm::mat4(1.0f);
+            view = glm::translate(view, -glm::vec3(m_Position, 0.0f));
+            Log(worldWidth);
+            Log(worldHeight);
+            proj = glm::ortho(-worldWidth / 2.0f, worldWidth / 2.0f, -worldHeight / 2.0f, worldHeight / 2.0f, near, far);
+            return proj * view;
+        }
+    };
+
+    class PerspectiveCamera
+    {
+    private:
+        glm::vec3 m_Position = glm::vec3(0.0f, 0.0f, 0.0f);
+        glm::vec3 m_Front    = glm::vec3(0.0f, 0.0f,-1.0f);
+        glm::vec3 m_Up       = glm::vec3(0.0f, 1.0f, 0.0f);
+
+        bool m_FirstMouse = true;
+
+        float m_MoveSpeed = 0.0f;
+        float m_LookSpeed = 0.0f;
+
+        float m_LastX = 400.0f;
+        float m_LastY = 300.0f;
+        float m_PosX = 0.0f;
+        float m_PosY = 0.0f;
+        float m_Yaw = -90.0f;
+        float m_Pitch = 0.0f;
+
+    public:
+        PerspectiveCamera(const glm::vec3& position, float moveSpeed = 50.0f, float lookSpeed = 120.0f)
+            : m_Position(position), m_MoveSpeed(moveSpeed), m_LookSpeed(lookSpeed)
+        {
+
+        }
+
+        ~PerspectiveCamera()
+        {
+        }
+
+        void Update(Window& window)
+        {
+            window.SetRelativeMouseMode(true);
+            float deltaTime = window.GetDeltaTime();
+
+            float xoffset = 0.0f, yoffset = 0.0f;
+            window.GetRelMousePos(&xoffset, &yoffset);
+
+            xoffset *= m_LookSpeed * deltaTime;
+            yoffset *= m_LookSpeed * deltaTime;
+
+            if (window.CheckKeyDown(SDL_SCANCODE_W))
+                m_Position += m_Front * m_MoveSpeed * deltaTime;
+            if (window.CheckKeyDown(SDL_SCANCODE_S))
+                m_Position -= m_Front * m_MoveSpeed * deltaTime;
+            if (window.CheckKeyDown(SDL_SCANCODE_A))
+                m_Position -= glm::normalize(glm::cross(m_Front, m_Up)) * m_MoveSpeed * deltaTime;
+            if (window.CheckKeyDown(SDL_SCANCODE_D))
+                m_Position += glm::normalize(glm::cross(m_Front, m_Up)) * m_MoveSpeed * deltaTime;
+
+            if (m_FirstMouse)
+            {
+                m_LastX = m_PosX;
+                m_LastY = m_PosY;
+                m_FirstMouse = false;
+            }
+
+            m_Yaw += xoffset;
+            m_Pitch -= yoffset;
+
+            if (m_Pitch >= 89.0f)
+                m_Pitch = 89.0f;
+            if (m_Pitch <= -89.0f)
+                m_Pitch = -89.0f;
+
+            glm::vec3 direction;
+            direction.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+            direction.y = sin(glm::radians(m_Pitch));
+            direction.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+            m_Front = glm::normalize(direction);
+        }
+
+        /// <param name="fov">Field of view</param>
+        /// <param name="near">near plane</param>
+        /// <param name="far">far plane</param>
+        /// <returns>returns Perspective Matrix * View Matrix</returns>
+        glm::mat4 GetProjectionViewMatrix(int windowWidth, int windowHeight, float fov = 60.0f, float near = 0.01f, float far = 100.0f) const
+        {
+            glm::mat4 view = glm::mat4(1.0f);
+            glm::mat4 proj = glm::mat4(1.0f);
+            view = glm::lookAt(m_Position, m_Position + m_Front, m_Up);
+            proj = glm::perspective(glm::radians(fov), static_cast<float>(windowWidth) / static_cast<float>(windowHeight), near, far);
+            return proj * view;
+        }
+    };
 }
