@@ -1,6 +1,15 @@
 # SimpleOpenGLStarterClass
 Simple starter class for games, app and etc. written in C++ and OpenGL!
 
+Documentation:
+This file containes
+- **Window** class (Written with help of SDL2)
+- **Shader** class
+- **VertexArrayObject**, **VertexBufferObject** and **ElementBufferObject** classes
+- **Texture** class
+- **Renderable** class
+- **GameObject** class
+
 # DEMO:
 
 ```#define STB_IMAGE_IMPLEMENTATION
