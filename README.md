@@ -49,7 +49,7 @@ It's used mostly in 2D Games.
 This class is perspective camera. You can move with WASD and look around you with mouse!
 It's used mostly in 3D Games.
 
-## DEMO
+## DEMO (It's 2D right now but if you want to change to 3D, just make camera variable to _PerspectiveCamera_ and tweak GetProjectionViewMatrix())
 
 ```
 #define STB_IMAGE_IMPLEMENTATION
