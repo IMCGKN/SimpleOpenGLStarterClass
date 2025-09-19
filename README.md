@@ -12,7 +12,8 @@ This file containes
 
 # DEMO:
 
-```#define STB_IMAGE_IMPLEMENTATION
+```
+#define STB_IMAGE_IMPLEMENTATION
 #include "imcgknEngine.hpp"
 
 using namespace imcgkn;
