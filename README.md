@@ -31,7 +31,7 @@ This class stores indices that tell OpenGL in which order to draw vertices.
 Reduces duplication when multiple primitives share vertices.
 
 ## **Texture**
-this class loads textures with STB_IMAGE, including flip and filtering options.
+This class loads textures with STB_IMAGE, including flip and filtering options.
 
 ## **Renderable**
 This class stores vertex data, optional indices, and manages the **Buffers** and
