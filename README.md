@@ -51,6 +51,7 @@ using namespace imcgkn;
 
 int main()
 {
+	// DEMO
 	try
 	{
 		std::unique_ptr<Window> window = std::make_unique<Window>(800, 600, "Hello World", 4, 5, WindowFlags::Shown | WindowFlags::Resizable);
@@ -67,35 +68,33 @@ int main()
 
 		std::shared_ptr<Renderable> renderable = std::make_shared<Renderable>(vertices, BufferUsage::StaticDraw, indices, BufferUsage::StaticDraw);
 
-		std::unique_ptr<GameObject> go1 = std::make_unique<GameObject>(-50.0f, 0.0f, 0.0f, 100.0f, 100.0f, 100.0f, 0.0f, 0.0f, 45.0f);
-		std::unique_ptr<GameObject> go2 = std::make_unique<GameObject>(50.0f, 0.0f, 0.0f, 100.0f, 100.0f, 100.0f, 0.0f, 0.0f, 0.0f);
+		std::unique_ptr<GameObject> go1 = std::make_unique<GameObject>(-1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 45.0f);
+		std::unique_ptr<GameObject> go2 = std::make_unique<GameObject>(1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f);
 
 		go1->CreateRenderable(vertices, BufferUsage::StaticDraw, indices, BufferUsage::StaticDraw);
 		go2->SetRenderable(renderable);
 
-		glm::mat4 projection = glm::ortho(-window->GetWidth() / 2.0f, window->GetWidth() / 2.0f, -window->GetHeight() / 2.0f, window->GetHeight() / 2.0f, -1.0f, 1.0f);
-		glm::mat4 view = glm::mat4(1.0f);
+		std::unique_ptr<OrthoCamera> camera = std::make_unique<OrthoCamera>(glm::vec3(0.0f, 0.0f, 0.0f));
 
-		shader->SetMat4("projection", 1, GL_FALSE, projection);
-		shader->SetMat4("view", 1, GL_FALSE, view);
+		glEnable(GL_DEPTH_TEST);
 
 		while (window->IsOpen())
 		{
 			window->UpdateDeltaTime();
 			window->FirstUpdate();
 
-			if (window->CheckKeyDown(SDL_SCANCODE_X))
-				std::cout << "X is being pressed !\n";
+			camera->Update(*window.get());
+
+			if (window->CheckKeyDown(SDL_SCANCODE_ESCAPE))
+				window->CloseWindow();
 			if (window->CheckKeyUp(SDL_SCANCODE_X))
 				std::cout << "X was released !\n";
 
 			window->SecondUpdate();
 
-			projection = glm::ortho(-window->GetWidth() / 2.0f, window->GetWidth() / 2.0f, -window->GetHeight() / 2.0f, window->GetHeight() / 2.0f, -1.0f, 1.0f);
+			shader->SetMat4("projectionView", 1, GL_FALSE, camera->GetProjectionViewMatrix((float)window->GetWidth(), (float)window->GetHeight(), -1.0f, 1.0f));
 
-			shader->SetMat4("projection", 1, GL_FALSE, projection);
-
-			window->ClearScreen(GL_COLOR_BUFFER_BIT);
+			window->ClearScreen(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			go1->Render(shader.get(), "model", "tex0", RenderMode::Triangles);
 			go2->Render(shader.get(), "model", "tex0", RenderMode::Triangles);
@@ -108,4 +107,3 @@ int main()
 		std::cerr << e.what() << '\n';
 	}
 }
-
