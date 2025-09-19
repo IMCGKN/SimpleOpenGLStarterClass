@@ -41,6 +41,14 @@ This class stores vertex data, optional indices, and manages the **Buffers** and
 GameObject simplifies rendering by storing position, scale, rotation (Transform), 
 geometry (**Renderable**), and a **Texture**. Can render itself with a **Shader**.
 
+## **OrthoCamera**
+This class is orthographic camera. You can move with WASD.
+It's used mostly in 2D Games.
+
+## **PerspectiveCamera**
+This class is perspective camera. You can move with WASD and look around you with mouse!
+It's used mostly in 3D Games.
+
 ## DEMO
 
 ```
